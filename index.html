@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flowin - Where Ideas Flow and People Grow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide {
+            width: 90%;
+            max-width: 1000px;
+            height: 90%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            display: flex;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .slide-number {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            background: linear-gradient(135deg, #ff6b9d, #c44569);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 30px;
+            letter-spacing: -1px;
+        }
+
+        h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #636e72;
+            margin-bottom: 25px;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #74b9ff;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: #636e72;
+            margin-bottom: 40px;
+            font-style: italic;
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            width: 100%;
+            margin: 30px 0;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            background-clip: padding-box;
+            transition: all 0.3s ease;
+            text-align: left;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .feature-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .feature-desc {
+            color: #636e72;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .pillars-container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            width: 100%;
+            margin: 30px 0;
+        }
+
+        .pillar-section {
+            text-align: center;
+        }
+
+        .pillar-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            padding: 15px 30px;
+            border-radius: 25px;
+            color: white;
+        }
+
+        .online-pillar {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+        }
+
+        .offline-pillar {
+            background: linear-gradient(135deg, #fd79a8, #e84393);
+        }
+
+        .pillar-items {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .pillar-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            border-radius: 15px;
+            font-weight: 600;
+            color: #2d3436;
+        }
+
+        .principles-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            width: 100%;
+            margin: 30px 0;
+        }
+
+        .principle-item {
+            background: linear-gradient(135deg, rgba(116, 185, 255, 0.1), rgba(253, 121, 168, 0.1));
+            padding: 25px;
+            border-radius: 20px;
+            border-left: 4px solid;
+            text-align: left;
+        }
+
+        .principle-item:nth-child(1) { border-left-color: #74b9ff; }
+        .principle-item:nth-child(2) { border-left-color: #fd79a8; }
+        .principle-item:nth-child(3) { border-left-color: #00b894; }
+        .principle-item:nth-child(4) { border-left-color: #fdcb6e; }
+
+        .principle-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #2d3436;
+            margin-bottom: 10px;
+        }
+
+        .principle-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #2d3436;
+            margin-bottom: 8px;
+        }
+
+        .principle-desc {
+            color: #636e72;
+            line-height: 1.5;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 40px;
+            border-radius: 25px;
+            margin: 30px 0;
+            width: 100%;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .contact-item {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .navigation {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #2d3436;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .slide-indicators {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .indicator.active {
+            background: #667eea;
+            transform: scale(1.2);
+        }
+
+        .emoji-float {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .emoji-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .emoji-2 { top: 20%; right: 15%; animation-delay: 2s; }
+        .emoji-3 { bottom: 20%; left: 20%; animation-delay: 4s; }
+        .emoji-4 { bottom: 10%; right: 10%; animation-delay: 1s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .highlight {
+            background: linear-gradient(135deg, rgba(255, 107, 157, 0.2), rgba(196, 69, 105, 0.2));
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 40px 30px;
+                height: 95%;
+            }
+            
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            
+            .content-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .pillars-container {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .principles-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="presentation-container">
+        <!-- Background floating emojis -->
+        <div class="emoji-float emoji-1">💡</div>
+        <div class="emoji-float emoji-2">🌱</div>
+        <div class="emoji-float emoji-3">✨</div>
+        <div class="emoji-float emoji-4">🚀</div>
+
+        <!-- Slide 1: Cover -->
+        <div class="slide active">
+            <div class="slide-number">1 / 8</div>
+            <h1>FLOWIN</h1>
+            <p class="tagline">A Space Where Ideas Flow and People Grow</p>
+            <p class="subtitle">Tempat nongkrongnya jiwa kreatif 🌱</p>
+            <div style="margin-top: 40px; font-size: 1.2rem; color: #636e72; max-width: 600px; line-height: 1.6;">
+                Punya ide keren tapi bingung mulai dari mana? <br>
+                Butuh teman satu vibe buat <span class="highlight">ngobrol mimpi-mimpi gila?</span> <br><br>
+                <strong style="color: #667eea;">Welcome to Flowin! 🚀</strong>
+            </div>
+        </div>
+
+        <!-- Slide 2: What is Flowin -->
+        <div class="slide">
+            <div class="slide-number">2 / 8</div>
+            <h2>Apa itu FLOWIN? 🤔</h2>
+            <p class="subtitle">Komunitas kreatif yang:</p>
+            
+            <div class="content-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">😎</div>
+                    <div class="feature-title">Vibes Santai</div>
+                    <div class="feature-desc">tapi tetep produktif & meaningful</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👑</div>
+                    <div class="feature-title">Semua Bisa Leader</div>
+                    <div class="feature-desc">nggak ada hierarki kaku, semua setara</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✨</div>
+                    <div class="feature-title">Ide + Eksekusi</div>
+                    <div class="feature-desc">= magic happens here!</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; font-size: 1.4rem; font-style: italic; color: #667eea; font-weight: 600;">
+                "Kayak industri, tapi fun. Kayak hangout, tapi meaningful."
+            </div>
+        </div>
+
+        <!-- Slide 3: Why Flowin Exists -->
+        <div class="slide">
+            <div class="slide-number">3 / 8</div>
+            <h2>Kenapa FLOWIN Ada? 💭</h2>
+            
+            <div style="font-size: 1.8rem; color: #2d3436; margin: 40px 0; font-weight: 600;">
+                Simple aja:
+            </div>
+            
+            <div style="font-size: 1.4rem; color: #636e72; line-height: 1.8; margin: 30px 0; max-width: 700px;">
+                <span class="highlight">Ide bagus butuh ruang buat ngalir</span> 💡<br><br>
+                <span class="highlight">Orang hebat butuh tempat buat tumbuh bareng</span> 🌱
+            </div>
+            
+            <div style="margin-top: 50px; padding: 30px; background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); border-radius: 20px;">
+                <div style="font-size: 1.3rem; font-weight: 700; color: #667eea; margin-bottom: 15px;">
+                    Filosofi Flowin:
+                </div>
+                <div style="font-size: 1.2rem; color: #2d3436;">
+                    <strong>Proses > Results</strong> 🎯<br>
+                    <strong>Bareng > Sendiri</strong> 🤝
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4: Target Audience -->
+        <div class="slide">
+            <div class="slide-number">4 / 8</div>
+            <h2>Siapa yang Cocok? 🎯</h2>
+            <p class="subtitle">Kamu yang:</p>
+            
+            <div class="content-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💭</div>
+                    <div class="feature-title">Punya Ide</div>
+                    <div class="feature-desc">tapi bingung mulai dari mana</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🧭</div>
+                    <div class="feature-title">Cari Arah</div>
+                    <div class="feature-desc">& pengen berkembang</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-title">Suka Suasana</div>
+                    <div class="feature-desc">santai tapi tetep produktif</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <div class="feature-title">Butuh Teman</div>
+                    <div class="feature-desc">brainstorming & kolaborasi</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; padding: 25px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border-radius: 20px; font-size: 1.3rem; font-weight: 600;">
+                Bottom line: <em>Yang penting mau tumbuh bareng!</em> 🚀
+            </div>
+        </div>
+
+        <!-- Slide 5: Activities -->
+        <div class="slide">
+            <div class="slide-number">5 / 8</div>
+            <h2>Apa yang Kita Lakuin? 🎯</h2>
+            <h3>6 Pilar Aktivitas</h3>
+            
+            <div class="pillars-container">
+                <div class="pillar-section">
+                    <div class="pillar-title online-pillar">ONLINE 💻</div>
+                    <div class="pillar-items">
+                        <div class="pillar-item">Interaksi 💬</div>
+                        <div class="pillar-item">Edukasi 📚</div>
+                        <div class="pillar-item">Inspirasi ✨</div>
+                    </div>
+                </div>
+                <div class="pillar-section">
+                    <div class="pillar-title offline-pillar">OFFLINE 🤝</div>
+                    <div class="pillar-items">
+                        <div class="pillar-item">Kreasi 🎨</div>
+                        <div class="pillar-item">Hiburan 🎉</div>
+                        <div class="pillar-item">Apresiasi 👏</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; font-size: 1.2rem; color: #636e72; text-align: center;">
+                <strong>Konkritnya:</strong> Workshop, mentoring, project bareng, <br>
+                olahraga, konser, trip healing 🏖️
+            </div>
+        </div>
+
+        <!-- Slide 6: How it Works -->
+        <div class="slide">
+            <div class="slide-number">6 / 8</div>
+            <h2>Gimana Cara Kerjanya? ⚙️</h2>
+            <h3>4 Prinsip Utama</h3>
+            
+            <div class="principles-list">
+                <div class="principle-item">
+                    <div class="principle-number">1</div>
+                    <div class="principle-title">Kesetaraan 🤝</div>
+                    <div class="principle-desc">Semua orang dapet kesempatan buat nyoba mimpin</div>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-number">2</div>
+                    <div class="principle-title">Kolaborasi 🎯</div>
+                    <div class="principle-desc">Open space buat eksplorasi & sharing</div>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-number">3</div>
+                    <div class="principle-title">Growth 🌱</div>
+                    <div class="principle-desc">Belajar & tumbuh bareng, nggak sendirian</div>
+                </div>
+                <div class="principle-item">
+                    <div class="principle-number">4</div>
+                    <div class="principle-title">Apresiasi 🎉</div>
+                    <div class="principle-desc">Rayakan prosesnya juga, bukan cuma hasil</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 7: What Makes it Different -->
+        <div class="slide">
+            <div class="slide-number">7 / 8</div>
+            <h2>Yang Bikin Beda ✨</h2>
+            <h3>Flowin = Flow + Win</h3>
+            
+            <div class="content-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">😌</div>
+                    <div class="feature-title">Santai tapi Serius</div>
+                    <div class="feature-desc">dalam berkarya & mencapai goals</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <div class="feature-title">Tumbuh Bareng</div>
+                    <div class="feature-desc">nggak balapan, nggak kompetisi toxic</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-title">Proses itu Keren</div>
+                    <div class="feature-desc">nggak cuma fokus hasil akhir</div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤗</div>
+                    <div class="feature-title">Kebersamaan First</div>
+                    <div class="feature-desc">community over individual success</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; padding: 30px; background: linear-gradient(135deg, rgba(0, 184, 148, 0.1), rgba(253, 203, 110, 0.1)); border-radius: 20px; font-size: 1.2rem; color: #2d3436; line-height: 1.6;">
+                <strong>We believe:</strong> Sustainable productivity > Toxic hustle culture 💪<br>
+                <strong>We create:</strong> Ecosystem where creativity thrives naturally 🌿
+            </div>
+        </div>
+
+        <!-- Slide 8: Call to Action -->
+        <div class="slide">
+            <div class="slide-number">8 / 8</div>
+            <h2 style="margin-bottom: 20px;">Ready to Flow with Us? 🚀</h2>
+            
+            <div class="cta-section">
+                <h3 style="color: white; margin-bottom: 30px;">Join the Flow! ✨</h3>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        📧 flowinentrepreneur@gmail.com
+                    </div>
+                    <div class="contact-item">
+                        📱 +91 620 421 838
+                    </div>
+                </div>
+                
+                <div style="font-size: 1.3rem; margin-top: 30px; font-weight: 600;">
+                    Yuk, mulai journey tumbuh bareng di Flowin! 🌟
+                </div>
+            </div>
+            
+            <div style="margin-top: 40px; font-size: 1.1rem; color: #636e72; max-width: 700px; line-height: 1.6;">
+                We're not promising instant success atau overnight transformation. 
+                <br><br>
+                <strong style="color: #667eea;">What we're offering is something more valuable:</strong>
+                <br>
+                A supportive environment to discover your potential & build meaningful connections 💫
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="navigation">
+        <button class="nav-btn" onclick="prevSlide()" id="prevBtn">← Previous</button>
+        <button class="nav-btn" onclick="nextSlide()" id="nextBtn">Next →</button>
+    </div>
+
+    <!-- Slide indicators -->
+    <div class="slide-indicators">
+        <div class="indicator active" onclick="currentSlide(1)"></div>
+        <div class="indicator" onclick="currentSlide(2)"></div>
+        <div class="indicator" onclick="currentSlide(3)"></div>
+        <div class="indicator" onclick="currentSlide(4)"></div>
+        <div class="indicator" onclick="currentSlide(5)"></div>
+        <div class="indicator" onclick="currentSlide(6)"></div>
+        <div class="indicator" onclick="currentSlide(7)"></div>
+        <div class="indicator" onclick="currentSlide(8)"></div>
+    </div>
+
+    <script>
+        let currentSlideNum = 1;
+        const totalSlides = 8;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.slide');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            if (n > totalSlides) { currentSlideNum = 1; }
+            if (n < 1) { currentSlideNum = totalSlides; }
+            
+            // Hide all slides
+            slides.forEach(slide => slide.classList.remove('active'));
+            
+            // Remove active from all indicators
+            indicators.forEach(indicator => indicator.classList.remove('active'));
+            
+            // Show current slide
+            slides[currentSlideNum - 1].classList.add('active');
+            indicators[currentSlideNum - 1].classList.add('active');
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlideNum === 1;
+            document.getElementById('nextBtn').disabled = currentSlideNum === totalSlides;
+            
+            // Update button text for last slide
+            if (currentSlideNum === totalSlides) {
+                document.getElementById('nextBtn').textContent = '🚀 Join Flowin!';
+                document.getElementById('nextBtn').onclick = function() {
+                    alert('Ready to join Flowin? Send us an email at flowinentrepreneur@gmail.com or WhatsApp +91 620 421 838! 🌟');
+                };
+            } else {
+                document.getElementById('nextBtn').textContent = 'Next →';
+                document.getElementById('nextBtn').onclick = nextSlide;
+            }
+        }
+
+        function nextSlide() {
+            currentSlideNum++;
+            showSlide(currentSlideNum);
+        }
+
+        function prevSlide() {
+            currentSlideNum--;
+            showSlide(currentSlideNum);
+        }
+
+        function currentSlide(n) {
+            currentSlideNum = n;
+            showSlide(currentSlideNum);
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key >= '1' && e.key <= '8') {
+                currentSlide(parseInt(e.key));
+            }
+        });
+
+        // Auto-advance slides (optional - remove if not wanted)
+        /*
+        let autoSlideInterval = setInterval(function() {
+            if (currentSlideNum < totalSlides) {
+                nextSlide();
+            } else {
+                clearInterval(autoSlideInterval);
+            }
+        }, 10000); // 10 seconds per slide
+        
+        // Pause auto-advance on user interaction
+        document.addEventListener('click', function() {
+            clearInterval(autoSlideInterval);
+        });
+        */
+
+        // Initialize
+        showSlide(1);
+
+        // Add some fun interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click animations to feature cards
+            const cards = document.querySelectorAll('.feature-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = 'translateY(-5px)';
+                    }, 150);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
